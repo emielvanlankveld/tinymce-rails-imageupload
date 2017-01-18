@@ -18,6 +18,8 @@
             {type: 'iframe',  url: 'javascript:void(0)'},
             {type: 'textbox', name: 'file', label: ed.translate('Choose an image'), subtype: 'file'},
             {type: 'textbox', name: 'alt',  label: ed.translate('Image description')},
+            {type: 'selectbox', name: 'default_size',  label: 'Default size', options: ['Small', 'Normal', 'Large', 'Huge', 'Original']},
+            {type: 'selectbox', name: 'resize_quality',  label: 'Resized JPEG quality %', options: ['90', '80', '74', '100']},
             {type: 'container', classes: 'error', html: "<p style='color: #b94a48;'>&nbsp;</p>"},
 
             // Trick TinyMCE to add a empty div that "preloads" the throbber image
@@ -90,6 +92,16 @@
             }
           }
         }
+
+        var selects = form.getElementsByTagName('select');
+        size_ctrl = selects[0];
+        size_ctrl.name = "default_size";
+        quality_ctrl = selects[1];
+        quality_ctrl.name = "resize_quality";
+        
+          /* 
+           * for(var i = 0; i < selects.length; i++) { var ctrl = selects[i]; alert(ctrl.labelName); ctrl.name = "default_size"; }
+          */
 
         body.appendChild(form);
       }
@@ -218,6 +230,12 @@
         for(var i in inputs)
           if(inputs[i].name == name)
             return inputs[i].value;
+
+        var selects = form.getElementsByTagName("select");
+
+        for(var i in selects)
+          if(selects[i].name == name)
+            return selects[i].value;
 
         return "";
       }
